@@ -1,0 +1,19 @@
+{
+  "name": "spectatory",
+  "license": "MIT",
+  "tags": [
+    "observable",
+    "url",
+    "location"
+  ],
+  "classPath": "src",
+  "contributors": [
+    "kevinresol"
+  ],
+  "releasenote": "initial release",
+  "version": "0.0.0",
+  "dependencies": {
+    "tink_url": "",
+    "tink_state": ""
+  }
+}
