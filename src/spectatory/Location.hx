@@ -27,21 +27,27 @@ class Location {
 			})();
 		');
 		
+		function update()
+			switch window.location.href {
+				case href if(href != s.value): s.set(href);
+				case _: // skip
+			}
+		
 		// listen to pushState() and replaceState()
 		var oldPushState = window.history.pushState;
 		untyped window.history.pushState = function(data, title, ?url) {
 			oldPushState(data, title, url);
-			s.set(window.location.href);
+			update();
 		}
 		
 		var oldReplaceState = window.history.replaceState;
 		untyped window.history.replaceState = function(data, title, ?url) {
 			oldReplaceState(data, title, url);
-			s.set(window.location.href);
+			update();
 		}
 		
 		// listen to popstate event (browser's back/forward button)
-		window.addEventListener('popstate', function() s.set(window.location.href));
+		window.addEventListener('popstate', update);
 		
 		s.observe();
 	}
