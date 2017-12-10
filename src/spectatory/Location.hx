@@ -1,11 +1,13 @@
 package spectatory;
 
 import tink.Url;
+import tink.url.*;
+import tink.pure.*;
 import tink.state.*;
 import js.Browser.*;
 
 class Location {
-	static public var href(default, null):Observable<Url> = {
+	public static var href(default, null):Observable<Url> = {
 		var s = new State<Url>(window.location.href);
 		
 		// polyfill Event on IE
@@ -51,6 +53,14 @@ class Location {
 		
 		s.observe();
 	}
+	
+	public static var query(default, null):Observable<Mapping<String, Portion>> = 
+		href.map(function(href) {
+			var map = new Mapping();
+			for(param in href.query) map = map.with(param.name, param.value);
+			return map;
+		});
+	
 	
 	public static function push(url:String)
 		js.Browser.window.history.pushState(null, null, url);

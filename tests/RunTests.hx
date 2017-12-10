@@ -25,6 +25,11 @@ class RunTests {
     expected = 'http://www.example.com/2';
     js.Browser.window.history.replaceState(null, null, expected);
     asserts.assert(Location.href.value.toString() == expected);
+    asserts.assert(Location.query.value.get('id') == null);
+    
+    expected = 'http://www.example.com/2?id=1';
+    js.Browser.window.history.replaceState(null, null, expected);
+    asserts.assert(Location.query.value.get('id') == '1');
     
     return asserts.done();
   }
