@@ -62,9 +62,12 @@ class Location {
 		});
 	
 	
-	public static function push(url:String)
+	public static inline function back()
+		js.Browser.window.history.back();
+	
+	public static inline function push(url:String)
 		js.Browser.window.history.pushState(null, null, url);
 	
-	public static function replace(url:String)
+	public static inline function replace(url:String)
 		js.Browser.window.history.replaceState(null, null, url);
 }
