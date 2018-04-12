@@ -7,8 +7,8 @@ import tink.state.*;
 import js.Browser.*;
 
 class Location {
-	public static var href(default, null):Observable<Url> = {
-		var s = new State<Url>(window.location.href);
+	public static var href(default, null):Observable<String> = {
+		var s = new State<String>(window.location.href);
 		
 		// polyfill Event on IE
 		untyped __js__('
@@ -29,35 +29,38 @@ class Location {
 			})();
 		');
 		
-		function update()
-			switch window.location.href {
-				case href if(href != s.value): s.set(href);
-				case _: // skip
-			}
+		function update(href:String)
+			if(href != s.value) s.set(href);
 		
 		// listen to pushState() and replaceState()
 		var oldPushState = window.history.pushState;
 		untyped window.history.pushState = function(data, title, ?url) {
 			oldPushState(data, title, url);
-			update();
+			update(window.location.href);
 		}
 		
 		var oldReplaceState = window.history.replaceState;
 		untyped window.history.replaceState = function(data, title, ?url) {
 			oldReplaceState(data, title, url);
-			update();
+			update(window.location.href);
 		}
 		
 		// listen to popstate event (browser's back/forward button)
-		window.addEventListener('popstate', update);
+		window.addEventListener('popstate', function(_) update(window.location.href));
+		
+		// listen to hash change
+		window.addEventListener('hashchange', function(e) update(e.newURL));
 		
 		s.observe();
 	}
 	
+	public static var url(default, null):Observable<Url> =
+		href.map(function(href) return Url.parse(href));
+	
 	public static var query(default, null):Observable<Mapping<String, Portion>> = 
-		href.map(function(href) {
+		url.map(function(url) {
 			var map = new Mapping();
-			for(param in href.query) map = map.with(param.name, param.value);
+			for(param in url.query) map = map.with(param.name, param.value);
 			return map;
 		});
 	

@@ -1,0 +1,7 @@
+# @install: lix --silent download "https://github.com/haxetink/tink_await/archive/f2b0fcbfecd6cd688fba2c68af31aab2217d9afd.tar.gz" into tink_await/0.3.0/github/f2b0fcbfecd6cd688fba2c68af31aab2217d9afd
+-D tink_await=0.3.0
+-cp ${HAXESHIM_LIBCACHE}/tink_await/0.3.0/github/f2b0fcbfecd6cd688fba2c68af31aab2217d9afd/src
+--macro tink.await.Await.use()
+-lib tink_macro
+-lib tink_core
+-lib tink_syntaxhub
