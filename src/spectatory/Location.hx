@@ -11,7 +11,7 @@ class Location {
 		var s = new State<String>(window.location.href);
 		
 		// polyfill Event on IE
-		untyped __js__('
+		#if haxe4 js.Syntax.code #else untyped __js__ #end ('
 			(function () {
 				if ( typeof window.CustomEvent === "function" ) return;
 				function CustomEvent ( event, params ) {
